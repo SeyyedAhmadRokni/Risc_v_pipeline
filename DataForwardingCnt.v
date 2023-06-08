@@ -5,7 +5,8 @@ module DataForwarding(rs1, rs2, reg_rd, mem_rd, reg_reg_we, mem_reg_we, reg_jump
 
     input [4:0] rs1, rs2, reg_rd, mem_rd;
     input [1:0] reg_jump_t, mem_jump_t;
-    output [2:0] m8_1_cnt, m8_2_cnt;
+    input reg_reg_we, mem_reg_we;
+    output reg [2:0] m8_1_cnt, m8_2_cnt;
 
     always@(rs1, rs2, reg_rd, mem_rd, reg_jump_t, mem_jump_t)begin
         {m8_1_cnt, m8_2_cnt} = 6'b0;

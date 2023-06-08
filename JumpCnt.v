@@ -11,8 +11,8 @@ module JumpCnt(j_type, branch_t, sign_bit, zero, flush, m4_0_cnt);
 
     input [1:0] j_type, branch_t;
     input sign_bit, zero;
-    output flush;
-    output [1:0] m4_0_cnt
+    output reg flush;
+    output reg [1:0] m4_0_cnt;
 
     always @(j_type, branch_t, sign_bit, zero) begin
         {flush, m4_0_cnt} = 3'b0;

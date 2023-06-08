@@ -11,8 +11,6 @@ module DecodeCnt(op, f7, f3,
     parameter I_TYPE_ARITHMATIC_OP = 7'b0010011;
     parameter LW_OP = 7'b0000011;
     parameter JAL_OP =7'b1101111;
-    parameter SLT_7 = 7'b0;
-    parameter SLT_3 = 3'b010; 
 
     parameter ADD_3 = 3'b000;
     parameter SUB_3 = 3'b000;
@@ -45,13 +43,22 @@ module DecodeCnt(op, f7, f3,
     parameter EX_OR_I = 3'd6;
     parameter EX_XOR_I = 3'd7;
 
+    parameter JAL = 2'b01;
+    parameter JAL_R = 2'b10;
+    parameter BRANCH = 2'b11;
+
+    parameter BEQ = 2'b00;
+    parameter BNE = 2'b01;
+    parameter BLT = 2'b10;
+    parameter BGE = 2'b11;
+
     input [6:0] op, f7;
     input [2:0] f3;
     output memory_we, reg_we, memory_read, slt, lui;
     output [2:0] ex, imm_op;
     output [1:0] jump_t, branch_t;
 
-    assign is_i_type = Op == LW_OP | Op == I_TYPE_ARITHMATIC_OP | Op == JALR_OP;
+    assign is_i_type = op == LW_OP | op == I_TYPE_ARITHMATIC_OP | op == JALR_OP;
 
     assign memory_we = op == SW_OP;
     assign reg_we = op == R_TYPE_OP | op == JAL_OP | is_i_type;
