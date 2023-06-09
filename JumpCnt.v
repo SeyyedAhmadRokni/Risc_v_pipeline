@@ -17,7 +17,6 @@ module JumpCnt(j_type, branch_t, sign_bit, zero, flush, m4_1_cnt);
     always @(j_type, branch_t, sign_bit, zero) begin
 
         {flush, m4_1_cnt} = 0;
-        m4_1_cnt = 2'b0;
         if (j_type == JAL | j_type == JAL_R)begin
             flush = 1'b1;
             m4_1_cnt = 2'b10;

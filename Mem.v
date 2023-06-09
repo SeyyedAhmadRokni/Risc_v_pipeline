@@ -9,7 +9,7 @@ module Mem(clk, rst, a, we, wd, out);
 
     always @(address, posedge clk, posedge rst)begin
         if (rst)
-            $readmemb("C:/Users/SeyyedAhmadRokniHoss/Documents/CA_CA4/test2.txt", mem);
+            $readmemb("C:/Users/SeyyedAhmadRokniHoss/Documents/CA_CA4/ArrayTest.txt", mem);
         else begin
             out = mem[address>>2];
             if (clk & we)

@@ -63,7 +63,7 @@ module Datapath(clk, rst, if_we,
     ImmExtend imm_ext(imm_ext_cnt, if_inst_out, imm_ext_out);
 
     wire empty ;
-    assign empty = (flush | if_we);
+    assign empty = (flush | ~if_we);
     RegisterEmpty #(1) id_mem_we(clk, rst, empty, id_we, id_mem_we_in, id_mem_we_out);
     RegisterEmpty #(1) id_reg_we(clk, rst, empty, id_we, id_reg_we_in, id_reg_we_out);
     Register #(1) id_mem_read(clk, rst, id_we, id_mem_read_in, id_mem_read_out);

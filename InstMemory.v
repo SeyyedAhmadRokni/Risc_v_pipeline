@@ -6,7 +6,7 @@ module InstMemory(rst, a, inst);
     assign address = {16'b0,a};
     reg [31:0] im [16000:0];
     always @(posedge rst)begin
-        $readmemb("C:/Users/SeyyedAhmadRokniHoss/Documents/CA_CA4/inst.txt", im);
+        $readmemb("C:/Users/SeyyedAhmadRokniHoss/Documents/CA_CA4/test2.txt", im);
     end
 
     always @(address)begin
