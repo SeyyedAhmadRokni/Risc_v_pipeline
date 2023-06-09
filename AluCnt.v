@@ -12,6 +12,7 @@ module AluCnt(ex, alu_op);
     output reg [2:0] alu_op;
 
     always@(ex)begin
+        alu_op = 3'b0;
         case(ex)
             ADD: alu_op = 3'b000;
             SUB: alu_op = 3'b001;

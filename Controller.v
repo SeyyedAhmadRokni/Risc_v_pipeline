@@ -14,7 +14,7 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
     input [4:0] rs1, rs2, ex_reg_rd, mem_rd;
     input [1:0] ex_jump_t, mem_jump_t;
     input ex_reg_we, mem_reg_we;
-    output reg [2:0] m8_1_cnt, m8_2_cnt;
+    output [2:0] m8_1_cnt, m8_2_cnt;
     input [6:0] op, f7;
     input [2:0] f3;
     output memory_we, reg_we, memory_read, slt_out, lui_out;
@@ -23,14 +23,14 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
     input slt, sign_bit, lui;
     output m2_3_cnt, m2_4_cnt, m2_1_cnt, m2_2_cnt;
     output [1:0] m4_2_cnt;
-    output reg [2:0] alu_cnt;
+    output [2:0] alu_cnt;
     input [4:0] if_rs1, if_rs2, ex_rd;
     input mem_read;
     output if_we;
     input [1:0] id_jump_t, branch_t;
     input zero;
-    output reg flush;
-    output reg [1:0] m4_1_cnt;
+    output flush;
+    output [1:0] m4_1_cnt;
     input [1:0] mem_j_type;
     input mem_memory_read;
     output [1:0] m4_3_cnt;

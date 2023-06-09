@@ -1,4 +1,4 @@
-module Mux4(a1, a2, a3, a4, a5, a6, a7, a8, cnt, out);
+module Mux8(a1, a2, a3, a4, a5, a6, a7, a8, cnt, out);
     input [31:0] a1, a2, a3, a4, a5, a6, a7, a8;
     input [2:0] cnt;
     output [31:0] out;
