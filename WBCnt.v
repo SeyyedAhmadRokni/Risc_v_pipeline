@@ -1,4 +1,4 @@
-module WBCnt(j_type, memory_read, m4_2_cnt);
+module WBCnt(j_type, memory_read, m4_3_cnt);
 
     parameter JAL = 2'b01;
     parameter JAL_R = 2'b10;
@@ -6,8 +6,8 @@ module WBCnt(j_type, memory_read, m4_2_cnt);
     
     input [1:0] j_type;
     input memory_read;
-    output [1:0] m4_2_cnt;
-    assign m4_2_cnt = j_type == JAL | j_type == JAL_R ? 2'b00 :
+    output [1:0] m4_3_cnt;
+    assign m4_3_cnt = j_type == JAL | j_type == JAL_R ? 2'b00 :
                       memory_read == 1'b1 ? 2'b01 :
                       2'b10;
 
