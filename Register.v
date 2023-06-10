@@ -6,10 +6,10 @@ module Register #(parameter SIZE = 32) (clk, rst, we, in_data, out);
     assign out = data;
     always @(posedge clk, posedge rst) begin
         if (rst)
-            data = 0;
+            data <= 0;
         else begin
             if (we) begin
-                data = in_data;
+                data <= in_data;
             end
         end
     end

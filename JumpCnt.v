@@ -24,20 +24,28 @@ module JumpCnt(j_type, branch_t, sign_bit, zero, flush, m4_1_cnt);
         if (j_type == BRANCH)begin
 
             if (branch_t == BEQ)begin
-                flush = 1'b1;
-                m4_1_cnt = zero == 1'b1 ? 2'b01 : 2'b10;
+                if (zero == 1'b1)begin
+                    flush = 1'b1;
+                    m4_1_cnt = 2'b01;
+                end
             end
             if (branch_t == BNE)begin
-                flush = 1'b1;
-                m4_1_cnt = zero == 1'b0 ? 2'b01 : 2'b10;
+                if(zero == 1'b0)begin
+                    flush = 1'b1;
+                    m4_1_cnt = 2'b01;
+                end
             end
             if (branch_t == BLT)begin
-                flush = 1'b1;
-                m4_1_cnt = sign_bit == 1'b1 ? 2'b01 : 2'b10;
+                if (sign_bit == 1'b1)begin
+                    flush = 1'b1;
+                    m4_1_cnt = 2'b01;
+                end
             end
             if (branch_t == BGE)begin
-                flush = 1'b1;
-                m4_1_cnt = sign_bit == 1'b0 ? 2'b01 : 2'b10;
+                if (sign_bit == 1'b0)begin
+                    flush = 1'b1;
+                    m4_1_cnt = 2'b01;
+                end
             end
 
         end

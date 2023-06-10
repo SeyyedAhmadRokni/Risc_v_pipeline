@@ -39,7 +39,7 @@ module CA4(clk, rst);
         id_ex_in, imm_ext_cnt, id_jump_t_in, id_branch_t_in,
         id_ex_out, id_slt_out, sign_bit, id_lui_out, id_jump_t_out, m2_1_cnt,//ExCnt
         m2_2_cnt, m2_3_cnt, m2_4_cnt, m4_2_cnt, alu_op,
-        if_rs1_out, if_rs2_out, ex_rd_out, id_mem_read_out, if_we, //hazardDetecotr
+        if_rs1_out, if_rs2_out, id_rd_out, id_mem_read_out, if_we, //hazardDetecotr
         id_jump_t_out, id_branch_t_out, zero, flush, m4_1_cnt,//jumpCnt
         mem_jump_t_out, mem_mem_read_out, m4_3_cnt,//WBCnt
         );

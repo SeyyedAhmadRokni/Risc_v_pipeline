@@ -20,19 +20,22 @@ module Datapath(clk, rst, if_we,
     output [6:0] op, f7;
     output [2:0] f3;
     output [4:0] if_rs1_out, if_rs2_out;
+    output mem_mem_read_out;
 
     wire [31:0] pc_in, pc_out, inst_out, add1_out, if_pc_out, if_inst_out;
     wire [31:0] ex_pc_out, mem_pc_out, mem_alu_out, m4_3_out, ex_alu_out;
     output [4:0] mem_rd_out;
+    wire [31:0] memory_out, mem_mem_data_out;
 
     assign op = if_inst_out[6:0];
     assign f7 = if_inst_out[31:25];
     assign f3 = if_inst_out[14:12];
     assign if_rs1_out = if_inst_out[19:15];
     assign if_rs2_out = if_inst_out[24:20];
+    wire [31:0] m4_2_out, add2_out;
 
-    Mux4 m4_1(add1_out, ex_pc_out, ex_alu_out, 32'b0, m4_1_cnt, pc_in);
-    Pc pc(clk, rst, if_we, pc_in, pc_out);
+    Mux4 m4_1(add1_out, add2_out, m4_2_out, 32'b0, m4_1_cnt, pc_in);
+    Pc pc(~clk, rst, if_we, pc_in, pc_out);
     AddAlu add1(32'd4, pc_out, add1_out);
     InstMemory inst_mem(rst, pc_out[15:0], inst_out);
 
@@ -59,7 +62,7 @@ module Datapath(clk, rst, if_we,
     output [1:0] id_branch_t_out;
     output [1:0] id_jump_t_out;
 
-    RegMem reg_mem(clk, rst, mem_reg_we_out, if_inst_out[19:15], if_inst_out[24:20], mem_rd_out, m4_3_out, rd1_data, rd2_data);
+    RegMem reg_mem(~clk, rst, mem_reg_we_out, if_inst_out[19:15], if_inst_out[24:20], mem_rd_out, m4_3_out, rd1_data, rd2_data);
     ImmExtend imm_ext(imm_ext_cnt, if_inst_out, imm_ext_out);
 
     wire empty ;
@@ -68,7 +71,7 @@ module Datapath(clk, rst, if_we,
     RegisterEmpty #(1) id_reg_we(clk, rst, empty, id_we, id_reg_we_in, id_reg_we_out);
     Register #(1) id_mem_read(clk, rst, id_we, id_mem_read_in, id_mem_read_out);
     Register #(3) id_ex(clk, rst, id_we, id_ex_in, id_ex_out);
-    Register #(2) id_jump_t(clk, rst, id_we, id_jump_t_in, id_jump_t_out);
+    RegisterEmpty #(2) id_jump_t(clk, rst, empty, id_we, id_jump_t_in, id_jump_t_out);
     Register #(2) id_branch_t(clk, rst, id_we, id_branch_t_in, id_branch_t_out);
     Register #(1) id_slt(clk, rst, id_we, id_slt_in, id_slt_out);
     Register #(1) id_lui(clk, rst, id_we, id_lui_in, id_lui_out);
@@ -90,7 +93,7 @@ module Datapath(clk, rst, if_we,
     output zero;
     output sign_bit;
 
-    wire [31:0] m8_1_out, m8_2_out, alu_out, m2_1_out, add2_out, m4_2_out;
+    wire [31:0] m8_1_out, m8_2_out, alu_out, m2_1_out;
     output [4:0] ex_rd_out;
     wire [31:0] m2_2_out, m2_3_out, m2_4_out, ex_rs2_data_out;
     output ex_reg_we_out;
@@ -101,9 +104,9 @@ module Datapath(clk, rst, if_we,
     AddAlu add2(id_pc_out, m2_1_out, add2_out);
     Mux2 m2_1(32'd4, id_imm_out, m2_1_cnt, m2_1_out);
     Mux2 m2_2(id_pc_out, id_rs1_data_out, m2_2_cnt, m2_2_out);
-    Mux8 m8_1(m2_2_out, ex_pc_out, ex_alu_out, mem_pc_out, mem_alu_out, 32'b0, 32'b0, 32'b0, m8_1_cnt, m8_1_out);
+    Mux8 m8_1(m2_2_out, ex_pc_out, mem_pc_out, ex_alu_out, mem_alu_out, mem_mem_data_out, 32'b0, 32'b0, m8_1_cnt, m8_1_out);
     Mux2 m2_3(id_rs2_data_out, id_imm_out, m2_3_cnt, m2_3_out);
-    Mux8 m8_2(m2_3_out, ex_pc_out, ex_alu_out, mem_pc_out, mem_alu_out, 32'b0, 32'b0, 32'b0, m8_2_cnt, m8_2_out);
+    Mux8 m8_2(m2_3_out, ex_pc_out, mem_pc_out, ex_alu_out, mem_alu_out, mem_mem_data_out, 32'b0, 32'b0, m8_2_cnt, m8_2_out);
     Alu alu(alu_op, m8_1_out, m8_2_out, alu_out, zero);
     Mux2 m2_4(32'b0, 32'd1, m2_4_cnt, m2_4_out);
     Mux4 m4_2(alu_out, id_imm_out, m2_4_out, 32'b0, m4_2_cnt, m4_2_out);
@@ -122,8 +125,7 @@ module Datapath(clk, rst, if_we,
 
     wire mem_we;//for register
     assign mem_we = 1'b1;
-    output mem_mem_read_out, mem_reg_we_out;
-    wire [31:0] memory_out, mem_mem_data_out;
+    output mem_reg_we_out;
     output [1:0] mem_jump_t_out;
 
     Mem memory(clk, rst, ex_alu_out, ex_mem_we_out, ex_rs2_data_out[15:0], memory_out);

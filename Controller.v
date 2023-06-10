@@ -5,7 +5,7 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
                   ex_out, imm_op, jump_t_out, branch_t_out,
                   id_ex, slt, sign_bit, lui, id_jump_t, m2_1_cnt,//ExCnt
                   m2_2_cnt, m2_3_cnt, m2_4_cnt, m4_2_cnt, alu_cnt,
-                  if_rs1, if_rs2, ex_rd, mem_read, if_we,//hazardDetecotr
+                  if_rs1, if_rs2, id_rd, mem_read, if_we,//hazardDetecotr
                   id_jump_t, branch_t, zero, flush, m4_1_cnt,//jumpCnt
                   mem_j_type, mem_memory_read, m4_3_cnt,//WBCnt
                   );
@@ -24,7 +24,7 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
     output m2_3_cnt, m2_4_cnt, m2_1_cnt, m2_2_cnt;
     output [1:0] m4_2_cnt;
     output [2:0] alu_cnt;
-    input [4:0] if_rs1, if_rs2, ex_rd;
+    input [4:0] if_rs1, if_rs2, id_rd;
     input mem_read;
     output if_we;
     input [1:0] id_jump_t, branch_t;
@@ -34,8 +34,7 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
     input [1:0] mem_j_type;
     input mem_memory_read;
     output [1:0] m4_3_cnt;
-
-    DataForwarding df(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwarding
+    DataForwarding df(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we, mem_memory_read,//DataForwarding
                   ex_jump_t,mem_jump_t, m8_1_cnt, m8_2_cnt);
 
     DecodeCnt dec(op, f7, f3,
@@ -44,7 +43,7 @@ module Controller(rs1, rs2, ex_reg_rd, mem_rd, ex_reg_we, mem_reg_we,//DataForwa
     
     ExCnt exc(id_ex, slt, sign_bit, lui, id_jump_t, m2_1_cnt,
                   m2_2_cnt, m2_3_cnt, m2_4_cnt, m4_2_cnt, alu_cnt);
-    HazardDetectorCnt hzdc(if_rs1, if_rs2, ex_rd, mem_read, if_we);
+    HazardDetectorCnt hzdc(ex_out, lui_out, memory_we, if_rs1, if_rs2, id_rd, mem_read, if_we);
     JumpCnt jcnt(id_jump_t, branch_t, sign_bit, zero, flush, m4_1_cnt);
     WBCnt wbc(mem_j_type, mem_memory_read, m4_3_cnt);
 

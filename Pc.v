@@ -4,10 +4,10 @@ module Pc(clk, rst, we, in, out);
     output reg [31:0] out;
     always @(posedge clk, posedge rst)begin
         if (rst)
-            out = 32'b0;
+            out <= 32'b0;
         else begin
             if (we)
-                out = in;
+                out <= in;
         end
     end
 

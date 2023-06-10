@@ -12,7 +12,7 @@ module ExCnt(ex, slt, sign_bit, lui, jump_t, m2_1_cnt, m2_2_cnt, m2_3_cnt, m2_4_
     output [2:0] alu_cnt;
 
     assign m2_4_cnt = sign_bit == 1'b1;
-    assign m2_3_cnt = ex[2] == 1'b1;
+    assign m2_3_cnt = (ex<3'b100 & jump_t != JAL) ? 1'b0: 1'b1;
     assign m2_2_cnt = jump_t != JAL;
     assign m2_1_cnt = jump_t == BRANCH;
 
