@@ -6,7 +6,7 @@ module Datapath(clk, rst, if_we,
     m8_1_cnt, m8_2_cnt,
     alu_op, imm_ext_cnt, zero, sign_bit,
 
-    id_rs1_out, id_rs2_out, ex_rd_out, mem_rd_out,//Forward
+    id_mem_we_out, id_rs1_out, id_rs2_out, ex_rd_out, mem_rd_out,//Forward
     ex_jump_t_out, mem_jump_t_out, ex_reg_we_out, mem_reg_we_out,
     op, f7, f3, //Decode
     id_ex_out, id_slt_out, id_lui_out, id_jump_t_out, //ExCnt
@@ -55,7 +55,8 @@ module Datapath(clk, rst, if_we,
     wire [31:0] rd1_data, rd2_data, imm_ext_out, id_pc_out;
     wire [31:0] id_rs1_data_out, id_rs2_data_out, id_imm_out;
     output [4:0] id_rd_out;
-    wire id_reg_we_out, id_mem_we_out;
+    wire id_reg_we_out;
+    output id_mem_we_out;
     output id_slt_out, id_lui_out, id_mem_read_out;
     output [4:0] id_rs1_out, id_rs2_out;
     output [2:0] id_ex_out;
